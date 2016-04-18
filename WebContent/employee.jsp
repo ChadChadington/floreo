@@ -12,7 +12,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Results</title>
+    <title>Employee List</title>
 
     <!-- Bootstrap Core CSS - Uses Bootswatch Flatly Theme: http://bootswatch.com/flatly/ -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -21,10 +21,10 @@
     <link href="css/freelancer.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
-    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+   <!--  <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
     <link href="http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
-
+ -->
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -78,109 +78,69 @@
             <div class="row">
                 <div class="col-lg-12">	       
                     <div class="intro-text">
-                        <hr class="star-light">
+                        <hr class="star-light"><br><br>
                     <!--     <span class="skills">Type the last name of your employee: </span>
-					 -->	
+					 -->
+
+
+						<c:forEach var="floreo" items="${floreo}">
+						<table>			
+<%-- 	
 					
-	<c:choose>
-		<c:when test="${! empty floreo}">
+					<c:if test="${! empty (floreo)}">
+					 <img src="img/portfolio/${floreo.fname}.jpg" alt="" style="width: 50px;">
+					 --%>
+					 
+					 <form action= "EditFloreo.do">
+						<input type="hidden" name=id value="${floreo.id}">
+						<tr align="left"><img align="left" src="img/portfolio/${floreo.fname}.jpg" alt="" style="width: 70px;">
+						${floreo.fname} ${floreo.lname} | ${floreo.neighborhood} ${floreo.city} | ${floreo.motto}   
+						<input type="submit" value="Edit">					
+					</form>
+					 <form action= "DeleteFloreo.do" method="GET">
+		 
+					 	<input type="hidden" name=id value="${floreo.id}">
+		      			<input type="hidden" name="fname" value="${floreo.fname}">
+      					<input type="hidden" name="lname" value="${floreo.lname}">
+ 						<input type="hidden" name="city" value="${floreo.city}">
+      					<input type="hidden" name="neighborhood" value="${floreo.neighborhood}">	
+						<input type="hidden" name="latitude" value="${floreo.latitude}">
+      					<input type="hidden" name="longitude" value="${floreo.longitude}">
+ 						<input type="hidden" name="jobsNum" value="${floreo.jobsNum}">
+      					<input type="hidden"  name="motto"  value="${floreo.motto}">
+							
+						<button type="submit" value="Delete" style="background-color: black"> Delete </button> 
+					 </form>
+					 
+					 
+					</tr>
+						
+						<br><br><br><br>
+						
+						</c:forEach>
+					
+					<tr>
 
-			<table id="floreoResults">
-				<p>${floreo.fname} ${floreo.lname}<br>
-				${floreo.neighborhood}, ${floreo.city}</p>
-				<p>${floreo.motto}</p>
-				<%--  <li>Google Link for: <a href="http://maps.google.com/?q=${floreo.latitude},${floreo.longitude}">${floreo.city}</a></li>  --%>
- 			</table>
-
-		</c:when>
-		<c:otherwise>
-			<p>No floreo found</p>
-		</c:otherwise>
-	</c:choose>
+<!-- 					<form action="createEmployee.html" method="GET">
+						<input type="submit" value="Create New Employee"
+							name="Submit" id="addEmployee" />
+					</form>
+ -->
+					<form method="GET" action="createEmployee.jsp">
+						<button type="submit">Create New Employee</button>
+					</form>
+								</tr>
+					
+						<hr class="star-light">
+					</table>
+					
+					
 </head>
-
-<table id="xContainer">
-
-	<script type="text/javascript"
-		src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
-	<script language="javascript" type="text/javascript">
-    var map;
-    var geocoder;
-    
-    
-    function InitializeMap() {
-	
-        var latlng = new google.maps.LatLng(${floreo.latitude}, ${floreo.longitude});
-        var myOptions =
-        {
-        	  
-    		  zoom: 16,
-              center: latlng,
-              mapTypeId: google.maps.MapTypeId.ROADMAP,
-              disableDefaultUI: true,
-              zoomControl: true,
-              fullscreenControl: true,
-              streetViewControl: false,
-              scaleControl: true   
-        };
-        map = new google.maps.Map(document.getElementById("map"), myOptions);
-    }
-
-    function FindLocaiton() {
-        geocoder = new google.maps.Geocoder();
-        InitializeMap();
-
-        var address = document.getElementById("addressinput").value;
-        geocoder.geocode({ 'address': address }, function (results, status) {
-            if (status == google.maps.GeocoderStatus.OK) {
-                map.setCenter(results[0].geometry.location);
-                var marker = new google.maps.Marker({
-                    map: map,
-                    position: results[0].geometry.location
-                });
-            }
-            else {
-                alert("Geocode was not successful for the following reason: " + status);
-            }
-        });
-    }
-
-    function Button1_onclick() {
-        FindLocaiton();
-    }
-
-    window.onload = InitializeMap;
-    
-</script>
-</table>
-
 <body>
-	<table>
-		<tab>
-		<img src="img/portfolio/${floreo.fname}.jpg" align="right" class="img-responsive" alt="" style="width: 250px;"><div id="map" style="height: 250px; width: 250px;"></div>
-		<div class="my-marker">
-			
-		</div>
-		<br>
-	
-	<tr>
-		<form action="submit.do" method="GET">
-			<INPUT TYPE="submit" name="previous" VALUE="previous">
-		</form>
-	</tr>
-	<tr>
-		<form action="submit.do" method="GET">
-			<INPUT TYPE="submit" name="next" VALUE="next">
-		</form>
-	</tr>
-		<!-- <form action="AddFloreo.do" method="GET">
-			<INPUT TYPE="submit" name="add" VALUE="Add Employee">
-		</form> -->
-		
-		
-		</td>
-		</tr>
-	</table>
+<%-- 	<form action= "AddFloreo.do">
+						<input type="hidden" name=id value="${floreo.id}">
+						<tr align="left"><input type="submit" value="Create Employee">					
+					</form> --%>
 </body>
 		
 					</div>

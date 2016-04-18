@@ -19,6 +19,9 @@ html {
 body {
   margin: 0;
 }
+#left{
+	 text-align: left;
+}
 article,
 aside,
 details,

@@ -16,6 +16,11 @@ p.small {
     font-size: 16px;
 }
 
+#xContainer {
+    width:100%;
+    align="middle";
+}
+
 a,
 a:hover,
 a:focus,
